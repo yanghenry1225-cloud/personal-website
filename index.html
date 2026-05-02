@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的個人網站</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --card: #1e1e1e;
+      --accent: #c9a96e;
+      --accent-light: #e8c98a;
+      --text: #f0ece4;
+      --muted: #888074;
+      --border: rgba(201,169,110,0.2);
+      --serif: 'Noto Serif TC', serif;
+      --sans: 'Noto Sans TC', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 5vw;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 5vw 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 60vw; height: 60vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 680px; }
+    .hero-tag {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.9;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 2rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .hero-cta:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* ── Section ── */
+    section { padding: 6rem 5vw; }
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3rem;
+    }
+    .divider {
+      width: 3rem;
+      height: 1px;
+      background: var(--accent);
+      margin: 1rem 0 3rem;
+    }
+
+    /* ── About ── */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-img-wrap {
+      aspect-ratio: 3/4;
+      background: var(--card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-img-wrap::after {
+      content: '照片';
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+    }
+    .about-img-wrap .corner {
+      position: absolute;
+      width: 2rem; height: 2rem;
+      border-color: var(--accent);
+      border-style: solid;
+      border-width: 0;
+    }
+    .corner.tl { top: 1rem; left: 1rem; border-top-width: 1px; border-left-width: 1px; }
+    .corner.br { bottom: 1rem; right: 1rem; border-bottom-width: 1px; border-right-width: 1px; }
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 2rem;
+    }
+    .skill-tag {
+      padding: 0.35rem 0.9rem;
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: rgba(201,169,110,0.06);
+    }
+
+    /* ── Works ── */
+    #works { background: var(--bg); }
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .work-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .work-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+    .work-thumb {
+      aspect-ratio: 16/10;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      position: relative;
+      overflow: hidden;
+    }
+    .work-thumb-num {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-family: var(--serif);
+      font-size: 3rem;
+      color: rgba(201,169,110,0.08);
+      font-weight: 700;
+      line-height: 1;
+    }
+    .work-body { padding: 1.5rem; }
+    .work-cat {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .work-title {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    .work-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .work-link {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.2s;
+    }
+    .work-link:hover { gap: 0.7rem; }
+
+    /* ── Contact ── */
+    #contact { background: var(--surface); }
+    .contact-inner {
+      max-width: 560px;
+    }
+    .contact-inner p {
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid var(--border);
+      background: var(--card);
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .contact-item:hover { border-color: var(--accent); }
+    .contact-item-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      min-width: 4.5rem;
+    }
+    .contact-item-value {
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2rem 5vw;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img-wrap { aspect-ratio: 4/3; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="nav-logo">YOUR NAME</a>
+    <ul class="nav-links">
+      <li><a href="#about">關於</a></li>
+      <li><a href="#works">作品</a></li>
+      <li><a href="#contact">聯絡</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <p class="hero-tag">歡迎來到我的個人網站</p>
+      <h1>你好，我是<br /><em>你的名字</em></h1>
+      <p class="hero-desc">
+        <!-- 在這裡填入你的自我介紹 -->
+        一位熱愛設計與開發的創作者，專注於用視覺與程式碼打造有意義的數位體驗。
+      </p>
+      <a href="#works" class="hero-cta">查看我的作品 →</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <p class="section-label">About</p>
+    <h2 class="section-title">關於我</h2>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <div class="corner tl"></div>
+        <div class="corner br"></div>
+        <!-- 將 src 替換成你的照片路徑，例如 src="photo.jpg" -->
+        <!-- <img src="photo.jpg" alt="個人照片" style="width:100%;height:100%;object-fit:cover;"> -->
+      </div>
+      <div class="about-text">
+        <p>
+          <!-- 在這裡填入自我介紹第一段 -->
+          我目前就讀／工作於某某學校或公司，對設計、開發與創意工作充滿熱情。
+        </p>
+        <p>
+          <!-- 自我介紹第二段 -->
+          在空閒時間，我喜歡攝影、閱讀和探索新技術。我相信好的設計不只是美觀，更要能解決問題。
+        </p>
+        <div class="skills-list">
+          <!-- 修改這裡的技能標籤 -->
+          <span class="skill-tag">UI / UX 設計</span>
+          <span class="skill-tag">前端開發</span>
+          <span class="skill-tag">HTML / CSS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">攝影</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Works -->
+  <section id="works">
+    <p class="section-label">Works</p>
+    <h2 class="section-title">我的作品</h2>
+    <div class="divider"></div>
+    <div class="works-grid">
+
+      <!-- 作品卡片 1：複製這個區塊來新增作品 -->
+      <div class="work-card">
+        <div class="work-thumb">
+          <span class="work-thumb-num">01</span>
+          <!-- 可替換成圖片：<img src="work1.jpg" alt="作品縮圖" style="width:100%;height:100%;object-fit:cover;"> -->
+          作品截圖 / 封面
+        </div>
+        <div class="work-body">
+          <p class="work-cat">Web Design</p>
+          <h3 class="work-title">作品名稱一</h3>
+          <p class="work-desc">在這裡簡短描述這個作品的內容、使用的技術或達成的目標。</p>
+          <a href="#" class="work-link">查看詳情 →</a>
+        </div>
+      </div>
+
+      <!-- 作品卡片 2 -->
+      <div class="work-card">
+        <div class="work-thumb">
+          <span class="work-thumb-num">02</span>
+          作品截圖 / 封面
+        </div>
+        <div class="work-body">
+          <p class="work-cat">Mobile App</p>
+          <h3 class="work-title">作品名稱二</h3>
+          <p class="work-desc">在這裡簡短描述這個作品的內容、使用的技術或達成的目標。</p>
+          <a href="#" class="work-link">查看詳情 →</a>
+        </div>
+      </div>
+
+      <!-- 作品卡片 3 -->
+      <div class="work-card">
+        <div class="work-thumb">
+          <span class="work-thumb-num">03</span>
+          作品截圖 / 封面
+        </div>
+        <div class="work-body">
+          <p class="work-cat">Branding</p>
+          <h3 class="work-title">作品名稱三</h3>
+          <p class="work-desc">在這裡簡短描述這個作品的內容、使用的技術或達成的目標。</p>
+          <a href="#" class="work-link">查看詳情 →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">聯絡我</h2>
+    <div class="divider"></div>
+    <div class="contact-inner">
+      <p>有任何合作機會或想法？歡迎透過以下方式與我聯絡，我通常在一到兩天內回覆。</p>
+      <div class="contact-links">
+        <!-- 將 href 和文字換成你的資訊 -->
+        <a href="mailto:your@email.com" class="contact-item">
+          <span class="contact-item-label">Email</span>
+          <span class="contact-item-value">your@email.com</span>
+        </a>
+        <a href="https://github.com/yourusername" target="_blank" class="contact-item">
+          <span class="contact-item-label">GitHub</span>
+          <span class="contact-item-value">github.com/yourusername</span>
+        </a>
+        <a href="https://linkedin.com/in/yourusername" target="_blank" class="contact-item">
+          <span class="contact-item-label">LinkedIn</span>
+          <span class="contact-item-value">linkedin.com/in/yourusername</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>© 2026 你的名字. All rights reserved.</span>
+    <span>Made with ♥</span>
+  </footer>
+
+</body>
+</html>
